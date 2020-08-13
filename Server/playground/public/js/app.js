@@ -1,0 +1,1 @@
+console.log('Hello world from javascript running on the client side!');

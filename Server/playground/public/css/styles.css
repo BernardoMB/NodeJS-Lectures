@@ -1,0 +1,8 @@
+.title {
+    background-color: gray; 
+    margin: 80px; 
+    padding: 40px; 
+    color: white; 
+    border: 1px dashed orangered; 
+    text-align: center;
+}

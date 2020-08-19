@@ -1,0 +1,20 @@
+{
+  "name": "testing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha *.test.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "expect": "^26.4.0",
+    "mocha": "^8.1.1",
+    "rewire": "^5.0.0",
+    "supertest": "^4.0.2"
+  }
+}

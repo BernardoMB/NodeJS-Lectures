@@ -61,11 +61,18 @@ describe('Server', () => { // Probar test suite
                 expect(res.body).toHaveLength(2);
                 expect(res.body.length).toEqual(2);
                 
-                /* .toContain({
-                    fullName: 'Bernardo Mondragon',
-                    age: '23',
-                    likes: ['football', 'math']
-                }); */
+                expect(res.body).toContain([
+                    {
+                        fullName: 'Omar Gomez Ramirez',
+                        age: '21',
+                        likes: ['football', 'fifa']
+                    },
+                    {
+                        fullName: 'Bernardo Mondragon Brozon',
+                        age: '26',
+                        likes: ['football', 'math']
+                    }
+                ]);
             })
             .end(done);
     });

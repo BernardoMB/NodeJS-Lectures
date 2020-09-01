@@ -86,7 +86,7 @@ MongoClient.connect(`mongodb://${HOST}/${DATABASE}`, (error, db) => {
         console.log('Todo:');
         console.log(docsArray);
     }, (err) => {
-        console.log(`Unable to fetch tpdp with id ${new ObjectID('5f4857589d2b9d1fc40bb439')}`);
+        console.log(`Unable to fetch tpdp with id ${new ObjectID('5f4857589d2b9d1fc40bb439')}`, err);
         throw err;
     });
 

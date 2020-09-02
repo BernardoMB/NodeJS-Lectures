@@ -90,5 +90,29 @@ MongoClient.connect(`mongodb://${HOST}/${DATABASE}`, (error, db) => {
         throw err;
     });
 
+    // Count up all todos in 'Todos' collection
+    // Set collection to a variable
+    const collection = db.collection('Todos');
+    // Call 'find()' on 'collection' to get the cursor count.
+    const cursor = collection.find();
+    // Get the cursos count.
+    cursor.count().then((count) => {
+        console.log('Todos count:', count);
+    }, (err) => {
+        console.log('Unable to count todos', err);
+    });
+    // Do the samehting but passing a callback
+    cursor.count((err, count) => {
+        if (err) {
+            return console.log('Unable to count todos', err);
+        }
+        console.log('Todos count:', count);
+    });
+
+    // TODO: Tarea
+    // 1. Obtener todos los todos que esten incompletos en cursor
+    // 2. Sobre el cursor obtener la cuenta
+    // 3. Ordenarlos por fecha de creacion (cursor.sort(), ver documentacion). 
+
     db.close();
 });

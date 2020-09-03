@@ -94,7 +94,7 @@ MongoClient.connect(`mongodb://${HOST}/${DATABASE}`, (error, db) => {
     // Set collection to a variable
     const collection = db.collection('Todos');
     // Call 'find()' on 'collection' to get the cursor count.
-    const cursor = collection.find();
+    let cursor = collection.find();
     // Get the cursos count.
     cursor.count().then((count) => {
         console.log('Todos count:', count);
@@ -113,6 +113,31 @@ MongoClient.connect(`mongodb://${HOST}/${DATABASE}`, (error, db) => {
     // 1. Obtener todos los todos que esten incompletos en cursor
     // 2. Sobre el cursor obtener la cuenta
     // 3. Ordenarlos por fecha de creacion (cursor.sort(), ver documentacion). 
+
+    // 1.
+    cursor = collection.find({
+        completed: false
+    });
+
+    // 2.
+    cursor.count().then((count) => {
+        console.log('Todos count:', count);
+    }, (err) => {
+        console.log('Unable to count todos', err);
+    });
+
+    // 3.
+    cursor.sort([['createdAt', 1]]).toArray().then((docsArray) => {
+        if (docsArray.length == 0) {
+            return console.log('There are uncompleted todos');
+        }
+        console.log('Sorted uncompleted todos:');
+        console.log(docsArray);
+    }, (err) => {
+        console.log('Unable to fetch sorted uncompleted todos', err);
+        throw err;
+    });
+
 
     db.close();
 });

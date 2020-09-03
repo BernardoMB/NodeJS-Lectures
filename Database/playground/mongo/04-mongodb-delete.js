@@ -14,13 +14,31 @@ MongoClient.connect(`mongodb://${HOST}/${DATABASE}`, (error, db) => {
     const todosCollection = db.collection('Todos');
 
     // deleteMany. Delete all documents that match the specified filter
-    todosCollection.deleteMany({
+    /* todosCollection.deleteMany({
         title: 'Test'
     }).then((res) => {
         console.log(`Deleted ${res.deletedCount} todos`);
     }, (err) => {
         console.log('Unable to delete todos', err);
-    })
+    }); */
+
+    // deleteOne. Delete the first document that matche the filter in the query
+    /* todosCollection.deleteOne({
+        title: 'Test'
+    }).then((res) => {
+        console.log(`Deleted ${res.deletedCount} todos`);
+    }, (err) => {
+        console.log('Unable to delete todos', err);
+    }); */
+
+    // findOneAndDelete. Delete the first document that matches the filter in the query and return the deleted document
+    todosCollection.findOneAndDelete({
+        title: 'Test'
+    }).then((res) => {
+        console.log(`Deleted todo`, res.value);
+    }, (err) => {
+        console.log('Unable to delete todos', err);
+    });
 
     db.close();
 });

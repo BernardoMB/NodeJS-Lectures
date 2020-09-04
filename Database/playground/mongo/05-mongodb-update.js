@@ -36,5 +36,25 @@ MongoClient.connect(`mongodb://${HOST}/${DATABASE}`, (error, db) => {
     // 4. Que la query regrese el documento actualizado
     // 5. Imprimir el resultado al usuario (Hint: utilizar .then(...))
 
+    const usersCollection = db.collection('Users');
+    // 1.
+    usersCollection.findOneAndUpdate({ 
+        name: 'Bernardo Mondragon' 
+    }, {
+        // 2.
+        $set: {
+            name: 'Sin nombre'
+        },
+        // 3.
+        $inc: { age: 1 }
+    }, {
+        // 4.
+        returnOriginal: false
+    }).then((res) => {
+        console.log(res);
+    }, (err) => {
+        console.log(err);
+    });
+
     db.close();
 });

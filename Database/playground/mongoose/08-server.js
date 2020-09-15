@@ -89,6 +89,21 @@ app.post('/todos', (request, response) => {
     });
 });
 
+// GET /todos/:id Get todo by it's unique identifier (id).
+app.get('/todos/:id', (request, response) => {
+    console.log('Fetching todo');
+    const routeParams = request.params;
+    const todoId = routeParams.id;
+    Todo.findById(todoId).then((todo) => {
+        if (!todo) {
+            return response.status(404).send();
+        }
+        response.send(todo);
+    }, (err) => {
+        response.status(400).send(err);
+    }); 
+});
+
 // GET /todos. Get all the todos.
 app.get('/todos', (request, response) => {
     Todo.find().then((todos) => {

@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ./playground/**/10-server.test.js"
+    "test": "mocha ./playground/**/10-server.test.js",
+    "start": "node server/server.js"
+  },
+  "engine": {
+    "node": "14.4.0"
   },
   "author": "",
   "license": "ISC",

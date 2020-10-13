@@ -60,7 +60,7 @@ UserSchema.methods.generateAuthToken = function() {
     const token = jwt.sign({
         _id: user._id.toHexString(),
         access
-    }, 'secret').toString();
+    }, process.env.JWT_SECRET).toString();
     console.log('Payload', {
         access, token
     });
@@ -113,7 +113,7 @@ UserSchema.statics.findByToken = function(token) {
     const User = this;
     let decoded;
     try {
-        decoded = jwt.verify(token, 'secret');
+        decoded = jwt.verify(token, process.env.JWT_SECRET);
     } catch(e) {
         console.log('Access denied for token', token);
         /* return new Promise((resolve, reject) => {

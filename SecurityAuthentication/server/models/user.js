@@ -61,9 +61,7 @@ UserSchema.methods.generateAuthToken = function() {
         _id: user._id.toHexString(),
         access
     }, process.env.JWT_SECRET).toString();
-    console.log('Payload', {
-        access, token
-    });
+    // console.log('Payload', { access, token });
     user.tokens.push({
         access, token
     });

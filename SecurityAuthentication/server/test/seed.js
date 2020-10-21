@@ -1,13 +1,13 @@
-const {ObjectID, ObjectId} = require('mongodb');
+const {ObjectID} = require('mongodb');
 const jwt = require('jsonwebtoken');
 
 const {Todo} = require('./../models/todo');
 const {User} = require('./../models/user');
 
-// Dummy users
+// Dummy users (fake data)
 const userOneId = new ObjectID();
 const userTwoId = new ObjectID();
-const user = [
+const users = [
     {
         _id: userOneId,
         email: 'user1@example.com',
@@ -27,7 +27,7 @@ const user = [
     }
 ];
 
-// Dummy todos
+// Dummy todos (fake data)
 const todos = [
     {
         _id: new ObjectID(),
@@ -45,3 +45,38 @@ const todos = [
 // 1. Crear una funcion para popular la base de datos con los todos de arriba que llame 'populateTodos'. 
 // HINT: Todo.remove({}) y luego adentro del then utilizar la funcion Todo.insertMany()
 // 2. Repetir el mismo proceso para popular la base de datos con los usuarios de arriba.
+
+// * Solucion
+
+// Alternative 1
+const populateUsers = (done) => {
+    User.remove({}).then(() => {
+        const userOne = new User(users[0]);
+        const userTwo = new User(users[1]);
+        const promiseOne = userOne.save();
+        const promiseTwo = userTwo.save();
+        return Promise.all([promiseOne, promiseTwo]);
+    }).then(() => {
+        done();
+    }).catch((error) => {
+        console.log(error);
+    });
+}
+
+// Alternative 2
+const populateTodos = (done) => {
+    Todo.remove({}).then(() => {
+        return Todo.insertMany(todos);
+    }).then(() => {
+        done();
+    }).catch((error) => {
+        console.log(error);
+    });
+}
+
+module.exports = {
+    users,
+    todos,
+    populateUsers,
+    populateTodos
+};

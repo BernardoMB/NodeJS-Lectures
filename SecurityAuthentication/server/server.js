@@ -33,7 +33,7 @@ app.get('/', (request, response) => {
 
 // POST /todos. Create all todos.
 app.post('/todos', authenticate, (request, response) => {
-    console.log('Request body', request.body);
+    // console.log('Request body', request.body);
     const todo = new Todo({
         ...(request.body),
         creator: request.user._id
@@ -47,7 +47,7 @@ app.post('/todos', authenticate, (request, response) => {
 
 // GET /todos/:id Get todo by it's unique identifier (id).
 app.get('/todos/:id', authenticate, (request, response) => {
-    console.log('Fetching todo');
+    // console.log('Fetching todo');
     const routeParams = request.params;
     const todoId = routeParams.id;
     if (!ObjectID.isValid(todoId)) {
@@ -75,7 +75,7 @@ app.get('/todos/:id', authenticate, (request, response) => {
         _id: todoId,
         creator: request.user.id
     };
-    console.log({filter});
+    // console.log({filter});
     Todo.findOne(filter).then((todo) => {
         if (!todo) {
             return response.status(404).send();
@@ -124,7 +124,7 @@ app.patch('/todos/:id', authenticate, (request, response) => {
             creator: userId,
             _id: todoId
         };
-        console.log({filter});
+        // console.log({filter});
         Todo.findOneAndUpdate(
             filter,
             request.body,
@@ -151,6 +151,9 @@ app.delete('/todos/:id', authenticate, (request, response) => {
         return response.status(400).send();
     }
     Todo.findById(todoId).then((todo) => {
+        if (!todo) {
+            return response.status(404).send();
+        }
         if (todo.creator != userId) {
             return response.status(401).send();
         }
@@ -158,7 +161,7 @@ app.delete('/todos/:id', authenticate, (request, response) => {
             creator: userId,
             _id: todoId
         };
-        console.log({filter});
+        // console.log({filter});
         Todo.remove(
             filter
         ).then((res) => {
@@ -167,12 +170,12 @@ app.delete('/todos/:id', authenticate, (request, response) => {
             //    "n": 1,
             //    "ok": 1
             // }
-            console.log({res});
+            // console.log({res});
             if (res.result.n >= 1) {
                 return response.send(todo);    
             }
             const error = 'An error ocurred';
-            console.log(error);
+            // console.log(error);
             return response.status(500).send({errorMessage: error});
         }).catch((err) => {
             // Send back an internal server error
@@ -189,11 +192,11 @@ app.delete('/todos/:id', authenticate, (request, response) => {
 
 // POST /users
 app.post('/users', (request, response) => {
-    console.log('Request body: ', request.body);
+    // console.log('Request body: ', request.body);
     const body = _.pick(request.body, ['email', 'password']);
     const user = new User(body);
     user.save().then((user) => {
-        console.log('Saved new user', user.toJSON());
+        // console.log('Saved new user', user.toJSON());
         response.send(user);
     }, (dbError) => {
         console.log('Error saving new user', dbError);
@@ -207,7 +210,7 @@ app.post('/users/login', (request, response) => {
     const credentials = _.pick(request.body, ['email', 'password']);
     User.findByCredentials(credentials.email, credentials.password).then((user) => {
         return user.generateAuthToken().then((token) => {
-            console.log('Token', token);
+            // console.log('Token', token);
             response.header('Authorization', token).send(user);
         });
     }).catch((error) => {
@@ -232,7 +235,6 @@ app.delete('/users/me/token', authenticate, (request, response) => {
     }).catch((error) => {
         console.log(error);
     });
-
 });
 
 

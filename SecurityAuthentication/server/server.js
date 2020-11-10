@@ -239,7 +239,7 @@ app.delete('/users/me/token', authenticate, (request, response) => {
 
 
 app.listen(PORT, () => {
-    console.log(`App listening on port ${PORT}`);
+    console.log(`Server listening on port ${PORT}`);
 });
 
 // Export the app
